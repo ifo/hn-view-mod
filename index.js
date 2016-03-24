@@ -13,7 +13,8 @@ function getAllComments() {
 }
 
 function makeTree(arr) {
-  var commentArray = arr.slice();
+  var commentArray = arr.slice(); // copy arr to prevent modifying it
+
   if (commentArray.length === 0) {
     return [];
   } else if (commentArray.length === 1) {
@@ -59,7 +60,6 @@ function hideAllReplies(level) {
 
 function hideLevel(level) {
   level.map(function(e) {
-    //e.elem.setAttribute('style', 'display: none;');
     e.elem.style.display = 'none';
     hideLevel(e.children);
   });
@@ -97,5 +97,5 @@ function addOnClickShowHide(e) {
         hideLevel(e.children);
       }
     }
-  }
+  };
 }
