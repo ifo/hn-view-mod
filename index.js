@@ -1,3 +1,7 @@
+function getCommentTree() {
+  return makeTree(getAllComments());
+}
+
 function getAllComments() {
   var comments = [];
   var commentRefs = document.getElementsByClassName('athing');
