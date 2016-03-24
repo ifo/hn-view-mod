@@ -122,3 +122,20 @@ function addOnClickShowHideStyle(e) {
     }
   };
 }
+
+/*
+ * Putting it all together
+ */
+function addHandlerAndStyle(level) {
+  level.map(function(e) {
+    addOnClickShowHideStyle(e);
+    setStyle(e);
+    addHandlerAndStyle(e.children);
+  });
+}
+
+function setupPage() {
+  var tree = getCommentTree();
+  hideAllReplies(tree);
+  addHandlerAndStyle(tree);
+}
