@@ -77,3 +77,25 @@ function showAll(level) {
     showAll(e.children);
   });
 }
+
+/*
+ * Event handlers
+ */
+function addClickHandler(level) {
+  level.map(function(e) {
+    AddOnClickShowHide(e);
+    addClickHandler(e.children);
+  });
+}
+
+function addOnClickShowHide(e) {
+  e.elem.onclick = function() {
+    if (e.children.length > 0) {
+      if (e.children[0].elem.style.display === 'none') {
+        showLevel(e.children);
+      } else {
+        hideLevel(e.children);
+      }
+    }
+  }
+}
