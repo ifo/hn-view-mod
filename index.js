@@ -48,17 +48,32 @@ function getNestLevel(elem) {
   return elem.getElementsByTagName('img')[0].width;
 }
 
-// Example
-// Hide all 2nd level + comments
-function hide(commentTree) {
-  commentTree.map(function(e) {
-    hideChildren(e.children);
+/*
+ * Display functions
+ */
+function hideAllReplies(level) {
+  level.map(function(e) {
+    hideLevel(e.children);
   });
 }
 
-function hideChildren(commentTree) {
-  commentTree.map(function(e) {
-    e.elem.setAttribute('style', 'display: none;');
-    hideChildren(e.children);
+function hideLevel(level) {
+  level.map(function(e) {
+    //e.elem.setAttribute('style', 'display: none;');
+    e.elem.style.display = 'none';
+    hideLevel(e.children);
+  });
+}
+
+function showLevel(level) {
+  level.map(function(e) {
+    e.elem.style.display = '';
+  });
+}
+
+function showAll(level) {
+  level.map(function(e) {
+    e.elem.style.display = '';
+    showAll(e.children);
   });
 }
