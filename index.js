@@ -78,24 +78,47 @@ function showAll(level) {
   });
 }
 
+// TODO precompute border selectors
+function addBorder(e) {
+  e.elem
+    .getElementsByClassName('default')[0]
+    .getElementsByTagName('div')[0]
+    .getElementsByTagName('span')[0]
+    .style['border-top'] = '1px solid #ccc';
+}
+
+function removeBorder(e) {
+  e.elem
+    .getElementsByClassName('default')[0]
+    .getElementsByTagName('div')[0]
+    .getElementsByTagName('span')[0]
+    .style['border-top'] = '';
+}
+
+function setStyle(e) {
+  if (e.children.length > 0 && e.children[0].elem.style.display === 'none') {
+    addBorder(e);
+  } else {
+    removeBorder(e);
+  }
+}
+
 /*
  * Event handlers
  */
-function addClickHandler(level) {
-  level.map(function(e) {
-    AddOnClickShowHide(e);
-    addClickHandler(e.children);
-  });
-}
-
-function addOnClickShowHide(e) {
-  e.elem.onclick = function() {
+function addOnClickShowHideStyle(e) {
+  // TODO disable click handler when "reply", "name" or "comment link" are clicked
+  e.elem.getElementsByClassName('default')[0].onclick = function() {
     if (e.children.length > 0) {
       if (e.children[0].elem.style.display === 'none') {
         showLevel(e.children);
       } else {
         hideLevel(e.children);
       }
+      setStyle(e);
+      // quick fix, ensure all children have the correct style
+      // TODO handle remembering styles and visibility
+      e.children.map(setStyle);
     }
   };
 }
