@@ -1,3 +1,6 @@
+;(function() {
+'use strict';
+
 function getCommentTree() {
   return makeTree(getAllComments());
 }
@@ -139,3 +142,8 @@ function setupPage() {
   hideAllReplies(tree);
   addHandlerAndStyle(tree);
 }
+
+// Run it
+setupPage();
+
+})();
