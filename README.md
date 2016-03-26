@@ -9,7 +9,7 @@ replies, while easily allowing the user to dig into the discussions if desired.
 
 ## Usage
 
-Go this repo's [gh-pages](http://ifo.github.io/hn-comment-display-modifier/)
+Go this repo's [gh-pages](https://ifo.github.io/hn-comment-display-modifier/)
 and follow the instructions listed there.
 
 ## License
