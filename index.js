@@ -8,7 +8,7 @@ function getCommentTree() {
 function getAllComments() {
   var comments = [];
   var commentRefs = document.getElementsByClassName('athing');
-  // the first comment is not a response, so it is ignored
+  // the first comment is not a reply, so it is ignored
   for (var i = 1; i < commentRefs.length; i++) {
     comments.push(commentRefs[i]);
   }
@@ -21,7 +21,7 @@ function makeTree(arr) {
   if (commentArray.length === 0) {
     return [];
   } else if (commentArray.length === 1) {
-    return [{elem: commentArray[0], children: []}];
+    return [{elem: commentArray[0], replies: []}];
   }
 
   var comment = commentArray.shift();
@@ -32,17 +32,17 @@ function makeTree(arr) {
   while (commentArray.length !== 0) {
     var current = commentArray.shift();
     if (getNestLevel(current) === nestLevel) {
-      tree.push({elem: comment, children: subArray});
+      tree.push({elem: comment, replies: subArray});
       comment = current;
       subArray = [];
     } else {
       subArray.push(current);
     }
   }
-  tree.push({elem: comment, children: subArray});
+  tree.push({elem: comment, replies: subArray});
 
   tree.map(function(comment) {
-    comment.children = makeTree(comment.children);
+    comment.replies = makeTree(comment.replies);
   });
 
   return tree;
@@ -57,14 +57,14 @@ function getNestLevel(elem) {
  */
 function hideAllReplies(level) {
   level.map(function(e) {
-    hideLevel(e.children);
+    hideLevel(e.replies);
   });
 }
 
 function hideLevel(level) {
   level.map(function(e) {
     e.elem.style.display = 'none';
-    hideLevel(e.children);
+    hideLevel(e.replies);
   });
 }
 
@@ -77,7 +77,7 @@ function showLevel(level) {
 function showAll(level) {
   level.map(function(e) {
     e.elem.style.display = '';
-    showAll(e.children);
+    showAll(e.replies);
   });
 }
 
@@ -99,7 +99,7 @@ function removeBorder(e) {
 }
 
 function setStyle(e) {
-  if (e.children.length > 0 && e.children[0].elem.style.display === 'none') {
+  if (e.replies.length > 0 && e.replies[0].elem.style.display === 'none') {
     addBorder(e);
   } else {
     removeBorder(e);
@@ -112,16 +112,16 @@ function setStyle(e) {
 function addOnClickShowHideStyle(e) {
   // TODO disable click handler when "reply", "name" or "comment link" are clicked
   e.elem.getElementsByClassName('default')[0].onclick = function() {
-    if (e.children.length > 0) {
-      if (e.children[0].elem.style.display === 'none') {
-        showLevel(e.children);
+    if (e.replies.length > 0) {
+      if (e.replies[0].elem.style.display === 'none') {
+        showLevel(e.replies);
       } else {
-        hideLevel(e.children);
+        hideLevel(e.replies);
       }
       setStyle(e);
-      // quick fix, ensure all children have the correct style
+      // quick fix, ensure all replies have the correct style
       // TODO handle remembering styles and visibility
-      e.children.map(setStyle);
+      e.replies.map(setStyle);
     }
   };
 }
@@ -133,7 +133,7 @@ function addHandlerAndStyle(level) {
   level.map(function(e) {
     addOnClickShowHideStyle(e);
     setStyle(e);
-    addHandlerAndStyle(e.children);
+    addHandlerAndStyle(e.replies);
   });
 }
 
